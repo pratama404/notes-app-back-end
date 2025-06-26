@@ -88,24 +88,82 @@ Simple Notes App project with a **Frontend** and **Backend** architecture. Backe
 
 ---
 
+## 🧪 API Test with Postman & Newman
+
+Untuk memastikan API berjalan sesuai ekspektasi, gunakan **Postman Collection** dan eksekusi dengan **Newman**.
+
+### Requirements
+- [Postman](https://www.postman.com/downloads/)
+- [Newman](https://github.com/postmanlabs/newman)
+
+### Run API Test
+```bash
+newman run notes-api-test.postman_collection.json --environment notes-api-test.postman_environment.json
+```
+
+### Example Test Output
+
+```
+Notes API Test
+
+→ Adding Notes
+  POST 18.142.227.89:5000/notes [201 Created]
+  √ response status code = 201
+  √ response Content-Type = application/json
+  √ response body should contain correct properties
+
+→ Getting All Notes
+  GET 18.142.227.89:5000/notes [200 OK]
+  √ response status code = 200
+  √ response body contains notes array
+
+→ Getting Specific Note
+  GET 18.142.227.89:5000/notes/<noteId> [200 OK]
+  √ response status code = 200
+  √ response body contains note object
+
+→ Update Note
+  PUT 18.142.227.89:5000/notes/<noteId> [200 OK]
+  √ response status code = 200
+  √ response body indicates success
+
+→ Delete Note
+  DELETE 18.142.227.89:5000/notes/<noteId> [200 OK]
+  √ response status code = 200
+  √ verify note has been deleted (404 Not Found)
+```
+
+**Catatan Penting:**
+- Pada contoh hasil test, terdapat kegagalan kecil pada pengecekan properti `note` setelah update note, disebabkan oleh script assertion yang mengakses properti `note` sebelum memastikan response sesuai format.
+- Perlu penyesuaian logika test untuk menghindari error seperti:
+  ```
+  TypeError: Cannot read properties of undefined (reading 'note')
+  ```
+- Pastikan koleksi Postman yang digunakan telah diperbarui mengikuti response API terbaru.
+
+---
+
 ## 📌 Notes
 
-- Ensure your EC2 instance has:
-  - Opened port `5000` for API access
-  - SSH and HTTP permissions set in Security Groups
-- PM2 keeps your Node.js server running after logout or reboot
+- Pastikan:
+  - Port `5000` terbuka di Security Group EC2
+  - PM2 menjaga proses backend tetap berjalan
+  - Docker berjalan untuk frontend lokal
 
 ---
 
 ## 🎯 Future Improvements
 
-- Add domain with NGINX reverse proxy
-- SSL setup with Let's Encrypt
-- CI/CD pipeline for automated deployment
+- Domain dengan NGINX reverse proxy
+- SSL menggunakan Let's Encrypt
+- CI/CD otomatis
 
 ---
 
 ## 🙌 Credits
 
 - Dicoding Academy - Frontend Template  
-- [Hapi.js](https://hapi.dev/), [NanoID](https://github.com/ai/nanoid), [PM2](https://pm2.keymetrics.io/)
+- [Hapi.js](https://hapi.dev/)  
+- [NanoID](https://github.com/ai/nanoid)  
+- [PM2](https://pm2.keymetrics.io/)  
+- [Postman](https://www.postman.com/) & [Newman](https://github.com/postmanlabs/newman)  
